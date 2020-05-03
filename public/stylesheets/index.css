@@ -1,0 +1,46 @@
+
+
+
+body {
+
+	background-color: 
+  -webkit-transition-timing-function: ease;
+       -o-transition-timing-function: ease;
+          transition-timing-function: ease;
+  -webkit-transition-duration: .35s;
+       -o-transition-duration: .35s;
+          transition-duration: .35s;
+  -webkit-transition-property: padding-top;
+       -o-transition-property: padding-top;
+          transition-property: padding-top;
+}
+.container {
+   padding-top:15%;
+   color:whitesmoke;
+}
+
+.parallax-image{
+	
+	height : 1000px;
+	margin-bottom:50px;
+	background-attachment: fixed;
+	background-position:center;
+	background-repeat: no-repeat;
+	background-size:cover;
+
+}
+
+#home{
+	background-image: url("https://previews.123rf.com/images/somegirl/somegirl1704/somegirl170400107/76010235-assorted-indian-food-on-dark-wooden-background-dishes-of-indian-cuisine-curry-butter-chicken-rice-le.jpg");
+
+}
+
+#about-project{
+	background-color: #45A29E
+}
+
+@media only screen and (max-device-width: 1366px) {
+  .parallax-image {
+    background-attachment: scroll;
+  }
+}

@@ -1,0 +1,78 @@
+<%- include ("partials/header") %>
+
+    <div class="parallax-image" id="home">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-5 m-auto">
+                        <h1 class="my-4">Upload Food Item</h1>
+                        <form class="form-group" action="/upload" method="post" enctype="multipart/form-data">
+                             <div class="custom-file mb-3">
+                                <input type="file" class="custom-file-input form-control" name="file" id="file1" onchange="readSingleFile(this.files)">
+                                <label class="custom-file-label" for="file1" id="file-label">Choose file</label>
+                            </div>
+                            <input type="submit" value="Submit" class="btn btn-primary btn-block form-control">
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>    
+    </div>
+
+    <div class="parallax-image" id="about-project">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-5 m-auto">
+                        
+                    </div>
+                </div>
+            </div>
+        </div>    
+    </div>
+
+
+
+    <% if(files) { %>
+    <% files.forEach(function(file){%>
+        <div class="card mb-3">
+            <div class="card-header">
+                <div class="card-title">
+                    <%= file.filename %>
+                </div>
+            </div>
+            <div class="card-body">
+                <% if(file.isImage){%>
+                    <img src="image/<%=file.filename %>" width="250" alt="" class="img-responsive">
+                 <%}else{%>
+                    <p><%file.filename %></p>
+                 <%}%>   
+            </div>
+            <div class="card-footer">
+                <form action="/files/del/<%=file._id %>" method="post">
+                        <button type="submit" class="btn btn-danger">Remove</button>
+                </form>
+            </div>    
+        </div>
+    <% }) %>
+    <%}else{%>
+        <p>No files to show </p>
+    <%}%>    
+
+
+
+
+
+
+<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+    <script>
+        function readSingleFile(e) {
+            const name = e[0].name;
+            document.getElementById("file-label").textContent = name;
+        }
+    </script>
+</body>
+
+</html>
+
+
