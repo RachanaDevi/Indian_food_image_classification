@@ -96,7 +96,7 @@ app.get("/",(req,res)=>{
 
 
 app.post("/upload",upload.single("file"),(req,res)=>{
-  file=req.file.filename;
+  file=req.file.filename; //this is probably unique
   console.log("HERE WHOLE FILE CONTENTS-->\n");
   console.log(req.file)
  // file = file.match(/^.*(?=\.)/g)
@@ -108,16 +108,17 @@ app.post("/upload",upload.single("file"),(req,res)=>{
 
 
 app.get("/result/:filename",(req, res)=>{
-	const files = gfs.find({
+	const file_res = gfs.find({
 		 filename : req.params.filename
 
-		},(err,files)=>{
+		}).toArray((err,files)=>{
 			if(!files || files.length == 0){
 				return res.status(404).json({
 					err: "no files exist"
 				});
 			}
-			console.log("THE FILE->",files);
+
+			console.log("THE FILE->",files[0]);
 			gfs.openDownloadStreamByName(req.params.filename) //req.params.filename //files[0]._id
 			.pipe(fs.createWriteStream('./output.png')).
 			on('error',function(error){
@@ -127,9 +128,10 @@ app.get("/result/:filename",(req, res)=>{
 			on('finish',function(){
 				console.log('done!');
 			});
+			res.render("result",{file:req.params.filename});
 
-		})
-	res.render("result",{file:files});
+		});
+	
 });
 
 
