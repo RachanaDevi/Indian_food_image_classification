@@ -128,7 +128,7 @@ app.get("/result/:filename",(req, res)=>{
 			on('finish',function(){
 				console.log('done!');
 			});
-			res.render("result",{file:req.params.filename});
+			res.render("result",{file:files[0]});
 
 		});
 	
@@ -137,7 +137,6 @@ app.get("/result/:filename",(req, res)=>{
 
 
 app.get("/image/:filename", (req, res) => {
-  // console.log('id', req.params.id)
   const file = gfs
     .find({
       filename: req.params.filename
