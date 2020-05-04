@@ -1,14 +1,16 @@
 <%- include ("partials/header") %>
 
-<div class="row">
-	<div class="col-lg-6 card" style="width: 70rem;">
-	  <img src="/image/<%=file.filename%>" class="card-img-top" alt="...">
-		  <div class="card-body">
+
+<div class="row srow-result">
+	<div class="col-lg-6 card border-dark" style="width: 70rem;">
+	  <img src="/image/<%=file.filename%>" class="card-img-top rounded float-right" alt="...">
+	 </div> 
+		  <div class="card border-dark col-lg-3">
 		    <h5 class="card-title">Card title</h5>
 		    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
 		    <a href="#" class="btn btn-primary">Go somewhere</a>
 		  </div>
-	</div>
 </div>
+
 
 <%- include ("partials/footer") %>
