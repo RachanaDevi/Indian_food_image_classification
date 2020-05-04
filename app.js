@@ -96,11 +96,8 @@ app.get("/",(req,res)=>{
 
 
 app.post("/upload",upload.single("file"),(req,res)=>{
-  file=req.file.filename; //this is probably unique
-  console.log("HERE WHOLE FILE CONTENTS-->\n");
-  console.log(req.file)
- // file = file.match(/^.*(?=\.)/g)
-  res.redirect("/result/"+file); //had used sendFile before	
+  file=req.file.filename;
+  res.redirect("/result/"+file);
 });
 
 
