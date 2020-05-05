@@ -2,13 +2,14 @@
 .row-result {
 
         margin-top:5em;
-        margin-left:5em;
+        margin-left:2em;
 }
 
 .card{
 	padding:1em;
-	margin-left:5em;
+	margin-left:2em;
 	margin-top:1.25em;
+	margin-right:2em;
 	display: grid;
     height: 100%;
 }
@@ -20,6 +21,10 @@
             
 }
 
+.progress{
+	margin-bottom:0.8em;
+}
 
- 
-     
+.stats{
+	margin-bottom:1em;
+}
