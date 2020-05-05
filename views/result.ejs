@@ -1,7 +1,7 @@
 <%- include ("partials/header") %>
 
 
-<div class="row srow-result">
+<div class="row ">
 	<div class="col-lg-6 card border-dark" style="width: 70rem;">
 	  <img src="/image/<%=file.filename%>" class="card-img-top rounded float-right" alt="...">
 	 </div> 
@@ -42,11 +42,23 @@
 			</div>
 		</div>	
 			
-			<div>
-		    <a href="#" class="btn btn-primary">Go somewhere</a>
-		    </div>
-		  </div>
-</div>
+			
+		   <div>
+		   <div class="alert">
+  				Is the prediction correct?
+			</div>	
+				<div class="row alert">
 
+				<div class="col">
+					    <a href="#" class="btn btn-block btn-success">Yes</a>
+				</div>
+				<div class="col">
+					    <a href="#" class="btn btn-block btn-danger">No</a>
+				</div>		    
+		    	</div>
+
+		  </div>
+		</div>
+</div>
 
 <%- include ("partials/footer") %>
