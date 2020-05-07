@@ -115,7 +115,7 @@ app.get("/result/:filename",(req, res)=>{
 				});
 			}
 
-			console.log("THE FILE->",files[0]);
+			// console.log("THE FILE->",files[0]);
 			gfs.openDownloadStreamByName(req.params.filename) //req.params.filename //files[0]._id
 			.pipe(fs.createWriteStream('./output.png')).
 			on('error',function(error){
@@ -131,7 +131,10 @@ app.get("/result/:filename",(req, res)=>{
 	
 });
 
+app.get("/result/:filename/no",(req,res)=>{
+	res.render("result_no",{file:req.params.filename});
 
+});
 
 app.get("/image/:filename", (req, res) => {
   const file = gfs
