@@ -1,11 +1,13 @@
-var express = require('express');
-const crypto = require('crypto'),
-	  fs = require('fs'),
-      path = require('path'),
+var express = require('express'),
+		app = express();
+
+const GridFsStorage = require('multer-gridfs-storage'),
       mongoose = require('mongoose'),
+      crypto = require('crypto'),
       multer = require('multer'),
-      GridFsStorage = require('multer-gridfs-storage');
-var app = express();
+      path = require('path'),
+	  fs = require('fs');
+
 
 const mongoURI = "mongodb://localhost:27017/node-file-upl";
 const conn = mongoose.createConnection(mongoURI,{
@@ -15,6 +17,7 @@ const conn = mongoose.createConnection(mongoURI,{
 });
 
 let gfs;
+//initializing GridFS storage
 conn.once("open",()=>{
 	gfs = new mongoose.mongo.GridFSBucket(
 			conn.db,{
@@ -99,9 +102,6 @@ app.post("/upload",upload.single("file"),(req,res)=>{
   file=req.file.filename;
   res.redirect("/result/"+file);
 });
-
-
-
 
 
 app.get("/result/:filename",(req, res)=>{
