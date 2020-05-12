@@ -1,0 +1,43 @@
+h2{
+	color:whitesmoke;
+}
+
+#about-project > div{
+	padding-top:8%;
+}
+
+@media only screen and (max-device-width: 1366px) {
+  .parallax-image {
+    background-attachment: scroll;
+  }
+}
+
+.fade-in{
+	opacity:0;
+	transition:opacity 655ms ease-in;
+}
+
+.fade-in.appear{
+	opacity:1;
+}
+
+.from-left{
+	grid-column: 2/3;
+	transform:translateX(-50%);
+}
+
+.from-right{
+	grid-column: 3/4;
+	transform:translateX(50%);
+}
+
+.from-left,.from-right{
+	transition: opacity 250ms ease-in,
+	 			transform 650ms ease-in;
+	opacity:0;
+}
+
+
+.from-left.appear,.from-right.appear{
+	transform:translateX(0);
+	opacity:1;
