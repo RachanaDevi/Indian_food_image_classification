@@ -1,5 +1,5 @@
 <%- include ("partials/header") %>
-
+<link rel="stylesheet" type="text/css" href="/stylesheets/index.css">
     <div class="parallax-image" id="home">
             <div class="container">
                 <div class="row">
@@ -17,16 +17,8 @@
             </div>
         </div>    
     </div>
-
-    <div class="parallax-image" id="about-project">
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-5 m-auto">
-                        
-                    </div>
-                </div>
-            </div>
-        </div>    
+    
+    <%- include ("about_project") %>
     </div>
 
 
@@ -56,5 +48,6 @@
     <%}else{%>
         <p>No files to show </p>
     <%}%>    
+     
 
 <%- include ("partials/footer") %>
