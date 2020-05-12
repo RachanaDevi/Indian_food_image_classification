@@ -3,6 +3,6 @@ $(document).ready(function() {
         e.preventDefault();
         $('html, body').animate({
             scrollTop : $(this.hash).offset().top
-        }, 500);
+        }, 1500);
     });
 });
