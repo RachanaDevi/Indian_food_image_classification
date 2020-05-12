@@ -1,7 +1,5 @@
-
-
-
 body {
+  font-family: 'Muli', sans-serif;
 
 	background-color: 
   -webkit-transition-timing-function: ease;
@@ -14,8 +12,11 @@ body {
        -o-transition-property: padding-top;
           transition-property: padding-top;
 }
-.container {
+#home > div {
    padding-top:15%;
+  
+}
+h1{
    color:whitesmoke;
 }
 
@@ -36,11 +37,18 @@ body {
 }
 
 #about-project{
-	background-color: #45A29E
+	background-color: #950740
+  /*#CAFAFE*/
+   /*#45A29E*/
 }
 
+.dropdown:hover .dropdown-menu{
+    display: block;
+    margin-top: 0;
+}
 @media only screen and (max-device-width: 1366px) {
   .parallax-image {
     background-attachment: scroll;
   }
 }
+
