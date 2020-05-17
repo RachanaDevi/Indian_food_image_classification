@@ -1,5 +1,6 @@
-var express = require('express'),
-		app = express();
+var bodyParser = require('body-parser'),
+	express = require('express'),
+	app = express();
 
 const GridFsStorage = require('multer-gridfs-storage'),
       mongoose = require('mongoose'),
@@ -50,6 +51,8 @@ const upload = multer({
 	storage
 });
 
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static(__dirname+"/public"));
 app.use(express.json());
 app.set("view engine","ejs");
@@ -135,6 +138,7 @@ app.get("/result/:filename/no",(req,res)=>{
 	res.render("result_no",{file:req.params.filename});
 
 });
+
 
 app.get("/image/:filename", (req, res) => {
   const file = gfs
