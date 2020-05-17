@@ -37,9 +37,13 @@ h1{
 }
 
 #about-project{
-	background-color: #950740
+	background-color: #950740;
   /*#CAFAFE*/
    /*#45A29E*/
+}
+
+#food-categories{
+  background-color: #45A29E;
 }
 
 .dropdown:hover .dropdown-menu{
