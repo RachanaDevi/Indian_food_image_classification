@@ -9,6 +9,7 @@
   "author": "Rachana Devi",
   "license": "ISC",
   "dependencies": {
+    "body-parser": "^1.19.0",
     "dev": "^0.1.3",
     "ejs": "^3.0.1",
     "express": "^4.17.1",
