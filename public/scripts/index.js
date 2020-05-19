@@ -1,3 +1,8 @@
+function selectSingleFile(file) {
+            const name = file[0].name;
+            document.getElementById("file-label").textContent = name;
+}
+
 $(document).ready(function() {
     $('a[href*=\\#about-project]').on('click', function(e){
         // e.preventDefault(); //this is to hide the id on the url
