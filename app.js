@@ -1,5 +1,6 @@
 var bodyParser = require('body-parser'),
 	express = require('express'),
+	imagesSchema = require('./schemas/images'),
 	app = express();
 
 const GridFsStorage = require('multer-gridfs-storage'),
@@ -8,9 +9,7 @@ const GridFsStorage = require('multer-gridfs-storage'),
       multer = require('multer'),
       path = require('path'),
 	  fs = require('fs'),
-      // FormData = require('form-data'),
       request = require('request');
-      // form = new FormData();
 
 
 
@@ -21,6 +20,7 @@ const conn = mongoose.createConnection(mongoURI,{
 
 });
 
+mongoose.Promise = global.Promise;
 let gfs;
 //initializing GridFS storage
 conn.once("open",()=>{
@@ -29,7 +29,7 @@ conn.once("open",()=>{
 				bucketName: "uploads"
 			});
 });
-
+var Image = conn.model("images",imagesSchema);
 const storage = new GridFsStorage({
 	url : mongoURI,
 	file: (req, file)=>{
@@ -81,11 +81,11 @@ function arrayInDescendingOrder(arr) {
 
 function toFixed15(arr){
    for(index =0; index<arr.length;index++){
-   	console.log("BEFORE");
-   	console.log(typeof arr[index]);
+   	// console.log("BEFORE");
+   	// console.log(typeof arr[index]);
    	  arr[index]=(parseFloat(arr[index]).toFixed(15)).toString();
-   	  console.log("AFTER");
-   	  console.log(typeof arr[index]);
+   	  // console.log("AFTER");
+   	  // console.log(typeof arr[index]);
     }
     return arr;
 
@@ -105,7 +105,7 @@ function getValuesInSameOrderOfTheKeyArr(key_arr,key_value_dict){
 
 
 function getFoodNamesInDescOrder(food_prob_dict){
-  console.log(food_prob_dict);
+  // console.log(food_prob_dict);
   food_prob_dict = changeDictValuesToFixed15(food_prob_dict);
   prob_food_dict = swapKeyandValueOfDict(food_prob_dict);
   prob_arr = getKeysOfDict(prob_food_dict);
@@ -161,6 +161,8 @@ app.post("/upload",upload.single("file"),(req,res)=>{
   FormData = require('form-data');
   form = new FormData();
   file=req.file.filename;
+  results_json=null;
+  food_arr = null;
 
   gfs.openDownloadStreamByName(file).pipe(fs.createWriteStream('./output.png')).on('error',function(error){
                 console.log(error);
@@ -185,15 +187,37 @@ app.post("/upload",upload.single("file"),(req,res)=>{
     			api_res.on('end',function(d)
     			{
         			results_json = JSON.parse(results);
-        			console.log(results_json);
-        			food_arr = getFoodNamesInDescOrder(results_json['Probabilities'][0]);
-                    console.log(food_arr);
+        			// console.log(results_json);
+        			// console.log(typeof results_json);
+        			food_arr = getFoodNamesInDescOrder(results_json['Probabilities']);
+                    var newImage =
+                    {
+	  					image_id:new mongoose.Types.ObjectId(req.file.id),
+	  					image_filename:req.file.filename,
+	  					contentType:req.file.contentType,
+	  					uploadDate:new Date(req.file.uploadDate),
+	      				prediction:results_json,
+	  	     			food_desc_order:food_arr
+  		     	    };
+  			    	
+  			    
+  			    Image.create(newImage,function(err,image){
+  			    	if(err){
+  			    		console.log(err);
+  			    	}
+  			    	else{
+  			    		// console.log(image);
+  			    		console.log("Saved to db");
+  			    		res.redirect("/result/"+file);
+  			    	}
+  			    });
+  		
         
-    			})  //end of res on end
-    	   }); //form submit
+    		})  //end of res on end
+    	}); //form submit
 
-  				//Databases come on
-
+  		
+  			// res.redirect("/result/"+file);	
 
 
 
@@ -202,13 +226,22 @@ app.post("/upload",upload.single("file"),(req,res)=>{
 
 
         
-       res.redirect("/result/"+file);	
+      
 
 
 });
 
 
 app.get("/result/:filename",(req, res)=>{
+	Image.findOne({ image_filename:req.params.filename }, function (err, foundImage) {
+		if(err){
+			console.log(err);
+		}
+		else{
+			res.render("result",{image_data:foundImage})
+		}
+
+    });
 	
 	
 }); 
@@ -221,7 +254,20 @@ app.get("/result/:filename/no",(req,res)=>{
 
 });
 
+app.patch("/result/:filename/add-category",function(req,res){
+	Image.findOne({ image_filename:req.params.filename }, function (err, foundImage) {
+		if(err){
+			console.log(err);
+		}
+		else{
+			res.send("HEY YOU MADE IT TILL HERE???");
+			// res.render("result",{image_data:foundImage})
+		}
 
+    });
+
+
+});
 app.get("/image/:filename", (req, res) => {
   const file = gfs
     .find({
