@@ -1,6 +1,8 @@
 var bodyParser = require('body-parser'),
 	express = require('express'),
 	imagesSchema = require('./schemas/images'),
+	foodCategoryImgSchema = require('./schemas/food_category_images'),
+	methodOverride = require('method-override');
 	app = express();
 
 const GridFsStorage = require('multer-gridfs-storage'),
@@ -16,7 +18,8 @@ const GridFsStorage = require('multer-gridfs-storage'),
 const mongoURI = "mongodb://localhost:27017/node-file-upl";
 const conn = mongoose.createConnection(mongoURI,{
 	useNewUrlParser : true,
-	useUnifiedTopology : true
+	useUnifiedTopology : true,
+	useFindAndModify: false,
 
 });
 
@@ -55,6 +58,7 @@ const upload = multer({
 	storage
 });
 
+app.use(methodOverride("_method"));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static(__dirname+"/public"));
@@ -238,6 +242,7 @@ app.get("/result/:filename",(req, res)=>{
 			console.log(err);
 		}
 		else{
+
 			res.render("result",{image_data:foundImage})
 		}
 
@@ -254,14 +259,33 @@ app.get("/result/:filename/no",(req,res)=>{
 
 });
 
-app.patch("/result/:filename/add-category",function(req,res){
-	Image.findOne({ image_filename:req.params.filename }, function (err, foundImage) {
+app.put("/result/:filename/add-category/:pred_food",function(req,res){
+
+	Image.findOneAndUpdate({ image_filename:req.params.filename },{$set:{category:req.params.pred_food}}, function (err, foodImage) {
 		if(err){
 			console.log(err);
 		}
 		else{
-			res.send("HEY YOU MADE IT TILL HERE???");
-			// res.render("result",{image_data:foundImage})
+			
+            // console.log(foodImage);
+            foodCategoryColl = conn.model("food."+req.params.pred_food,foodCategoryImgSchema);
+            newfoodInfo ={ 
+            	image_id:foodImage.image_id,
+    			image_filename:foodImage.image_filename,	
+    			accuracy:foodImage.prediction['Probabilities'][req.params.pred_food],
+
+            };
+            foodCategoryColl.create(newfoodInfo,function(err,food){
+            	if(err){
+            		console.log(err);
+            	}
+            	else{
+            		// console.log(food);
+            		console.log("successfully added to database");
+            	}
+            
+            });
+			res.redirect("/");
 		}
 
     });
