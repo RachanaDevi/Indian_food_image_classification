@@ -37,8 +37,8 @@
 				<div class="row alert">
                  
 				<div class="col">
-				   <form class="form-group" action="/result/<%=image_data['image_filename']%>/add-category" method="patch" enctype="multipart/form-data">
-					    <a href="/" class="btn btn-block btn-success">Yes</a>
+				   <form class="form-group" action="/result/<%=image_data['image_filename']%>/add-category/<%=results['Predicted_Food']%>?_method=PUT" method="post">
+					    <input type="submit" value="Yes" class="btn btn-block btn-success">
 					</form>    
 				</div>
 				<div class="col">
