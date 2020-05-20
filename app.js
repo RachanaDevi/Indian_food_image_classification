@@ -8,9 +8,9 @@ const GridFsStorage = require('multer-gridfs-storage'),
       multer = require('multer'),
       path = require('path'),
 	  fs = require('fs'),
-      FormData = require('form-data'),
-      request = require('request'),
-      form = new FormData();
+      // FormData = require('form-data'),
+      request = require('request');
+      // form = new FormData();
 
 
 
@@ -61,6 +61,12 @@ app.use(express.static(__dirname+"/public"));
 app.use(express.json());
 app.set("view engine","ejs");
 
+function changeDictValuesToFixed15(original_dict){
+	for(var key in original_dict){
+		original_dict[key]=original_dict[key].toFixed(15);
+	}
+	return original_dict;
+}
 function swapKeyandValueOfDict(original_dict){ 
         var swapped_dict = {}; 
         for(var key in original_dict){ 
@@ -73,6 +79,17 @@ function arrayInDescendingOrder(arr) {
   return arr.sort().reverse();
 }
 
+function toFixed15(arr){
+   for(index =0; index<arr.length;index++){
+   	console.log("BEFORE");
+   	console.log(typeof arr[index]);
+   	  arr[index]=(parseFloat(arr[index]).toFixed(15)).toString();
+   	  console.log("AFTER");
+   	  console.log(typeof arr[index]);
+    }
+    return arr;
+
+}
 
 function getKeysOfDict(dict){
     return Object.keys(dict);
@@ -88,15 +105,15 @@ function getValuesInSameOrderOfTheKeyArr(key_arr,key_value_dict){
 
 
 function getFoodNamesInDescOrder(food_prob_dict){
-  // console.log(food_prob_dict);
+  console.log(food_prob_dict);
+  food_prob_dict = changeDictValuesToFixed15(food_prob_dict);
   prob_food_dict = swapKeyandValueOfDict(food_prob_dict);
-  // console.log(prob_food_dict);
   prob_arr = getKeysOfDict(prob_food_dict);
   prob_arr = arrayInDescendingOrder(prob_arr);
-  // console.log(prob_arr);
   food_arr = getValuesInSameOrderOfTheKeyArr(prob_arr,prob_food_dict);
   return food_arr;
 }
+
 app.get("/",(req,res)=>{
 	if(!gfs){
 		console.log("Some error occurred, check connection to db");
@@ -141,87 +158,63 @@ app.get("/",(req,res)=>{
 
 
 app.post("/upload",upload.single("file"),(req,res)=>{
+  FormData = require('form-data');
+  form = new FormData();
   file=req.file.filename;
-    
+
+  gfs.openDownloadStreamByName(file).pipe(fs.createWriteStream('./output.png')).on('error',function(error){
+                console.log(error);
+
+            }).
+            on('finish',function(){
+                form.append( 'file', fs.createReadStream('output.png'),{filename: file, contentType: 'image'});
+  				form.submit('http://ec2-34-226-213-76.compute-1.amazonaws.com/home', function(err,api_res)
+  				{
+	    			if(err){
+	        			res.send(err);
+	    			}
+  			  
+    			var results = '';
+    			api_res.setEncoding('utf8')
+    			api_res.on('data',function(d){
+
+        			results+=d
+
+    			}); //end of api_res_on
+
+    			api_res.on('end',function(d)
+    			{
+        			results_json = JSON.parse(results);
+        			console.log(results_json);
+        			food_arr = getFoodNamesInDescOrder(results_json['Probabilities'][0]);
+                    console.log(food_arr);
+        
+    			})  //end of res on end
+    	   }); //form submit
+
+  				//Databases come on
 
 
 
-  res.redirect("/result/"+file);
+
+ 
+ }); //end of on finish function
+
+
+        
+       res.redirect("/result/"+file);	
+
+
 });
 
 
 app.get("/result/:filename",(req, res)=>{
-	const file_res = gfs.find({
-		 filename : req.params.filename
-
-		}).toArray((err,files)=>{
-			if(!files || files.length == 0){
-				return res.status(404).json({
-					err: "no files exist"
-				});
-			}
-
-
-			gfs.openDownloadStreamByName(req.params.filename) //req.params.filename //files[0]._id
-			.pipe(fs.createWriteStream('./output.png')).
-			on('error',function(error){
-				console.log(error)
-
-			}).
-			on('finish',function(){
-				console.log('done!');
-			});
-			// res.render("result",{file:files[0]});
-
-		}); //to Array over
-
-	// res.setHeader('Content-Type', 'application/json');		
-	form.append( 'file', fs.createReadStream('output.png'),
-	 {filename: 'sabudhana_sample.jpg', contentType: 'image/png'} );
-	form.submit('http://ec2-34-226-213-76.compute-1.amazonaws.com/home', function(err, response,body) {
-    if (err) throw err; //make error page
-    console.log('Done');
-    var results = '';
-    response.setEncoding('utf8')
-    response.on('data',function(d){
-    	results+=d
-
-    });
-    response.on('end',function(d){
-    	// console.log(JSON.parse(results));
-    	results_json = JSON.parse(results);
-    	// console.log(results_json['Probablities'][0][);
-    	food_arr = getFoodNamesInDescOrder(results_json['Probablities'][0]);
-    	
-
-    	res.render("result",{results:JSON.parse(results),file:req.params.filename,food:food_arr});
-    })
-  
-  });
-
-	// res.setHeader('Content-Type', 'application/json');		
-	// form.append( 'file', 'output.png',
-	//  {filename: 'samosa_sample.jpg', contentType: 'image/png'} );
-	// form.submit('http://ec2-34-226-213-76.compute-1.amazonaws.com/home', function(err, response,body) {
- //    if (err) throw err;
- //    console.log('Done');
- //    var prediction_json = '';
- //    response.setEncoding('utf8')
- //    response.on('data',function(d){
- //    	prediction_json+=d
-
- //    });
- //    response.on('end',function(d){
- //    	console.log(prediction_json);
- //    	console.log(typeof prediction_json);
- //    	console.log(JSON.parse(prediction_json));
- //    	res.render("result",{results:prediction_json,file:files[0]});
- //    })
-  
- //  });
-
 	
-}); //app.get over
+	
+}); 
+
+
+
 
 app.get("/result/:filename/no",(req,res)=>{
 	res.render("result_no",{file:req.params.filename});
