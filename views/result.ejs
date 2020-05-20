@@ -1,26 +1,31 @@
 <%- include ("partials/header") %>
 <link rel="stylesheet" type="text/css" href="/stylesheets/result.css">
-<% var probability = results['Probablities'][0] %>
+<% var results =image_data['prediction'] %>
+<% var probability = results['Probabilities'] %>
+<% var food = image_data['food_desc_order'] %>
 <% var food_category_limit = 5%>
 <% food_category_limit=(food.length<food_category_limit)?food.length:food_category_limit%>
 
+
+
 <div class="row ">
 	<div class="col-lg-6 card border-dark" style="width: 70rem;">
-	  <img src="/image/<%=file%>" class="card-img-top rounded float-right" alt="<%=file%>">
+	  <img src="/image/<%=image_data['image_filename']%>" class="card-img-top rounded float-right" alt="<%=image_data['image_filename']%>">
 	</div> 
     <div class="card border-dark col-lg-3">
 		    <h5 class="card-title">Classification results</h5>
 		    <div class="card-text alert alert-success" role="alert">
-  				The result is <%=results['Predicted-Food']%>.
+  				The result is <%=results['Predicted_Food']%>.
 			</div>
 
 			<% for(index = 0,opacity=100; index<food_category_limit;index++,opacity-=5){ %>	
 				<div class="stats">
 					<span> <%=food[index]%> :</span>
 				     <div class="progress">
+
 		  				<div class="progress-bar" style="width:<%=probability[food[index]]*100 %>%;opacity:<%=opacity%>%" role="progressbar" aria-valuenow="<%=probability[food[index]]%>" aria-valuemin="0" aria-valuemax="100">
 		  					<%=(probability[food[index]]*100).toFixed(2)%>%
-		  				</div>
+		  				</div> 
 					</div>
 				</div>	
 		     <%}%>
@@ -30,12 +35,14 @@
   				Is the prediction correct?
 			</div>	
 				<div class="row alert">
-
+                 
 				<div class="col">
+				   <form class="form-group" action="/result/<%=image_data['image_filename']%>/add-category" method="patch" enctype="multipart/form-data">
 					    <a href="/" class="btn btn-block btn-success">Yes</a>
+					</form>    
 				</div>
 				<div class="col">
-					    <a href="/result/<%=file%>/no" class="btn btn-block btn-danger">No</a>
+					    <a href="/result/<%=image_data['image_filename']%>/no" class="btn btn-block btn-danger">No</a>
 				</div>		    
 		    	</div>
 
