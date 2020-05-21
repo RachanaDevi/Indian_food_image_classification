@@ -2,9 +2,11 @@ var bodyParser = require('body-parser'),
 	express = require('express'),
 	imagesSchema = require('./schemas/images'),
 	foodCategoryImgSchema = require('./schemas/food_category_images'),
-	methodOverride = require('method-override');
+	methodOverride = require('method-override'),
+	mkdirp = require('mkdirp'),
 	app = express();
 
+var Food_Images_Dir = './Food_Images/';
 const GridFsStorage = require('multer-gridfs-storage'),
       mongoose = require('mongoose'),
       crypto = require('crypto'),
@@ -282,8 +284,25 @@ app.put("/result/:filename/add-category/:pred_food",function(req,res){
             	else{
             		// console.log(food);
             		console.log("successfully added to database");
-            	}
+            		
+            		mkdirp(Food_Images_Dir+req.params.pred_food).then(function(made_dir)
+            		{
+            			  if(typeof make_dir === undefined){
+            			  	console.log("Directory is already present");
+
+            			  }
+	 
+	            		  gfs.openDownloadStreamByName(req.params.filename).pipe(fs.createWriteStream(Food_Images_Dir+req.params.filename)).
+	            		  on('error',function(error){
+	                         console.log(error);
+
+	                    }).on('finish',function(){
+	                    	console.log("FINISHED");
+
+	                    });
+                    }); //mkdirp ending
             
+             } //end of else
             });
 			res.redirect("/");
 		}
