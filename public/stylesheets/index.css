@@ -1,58 +1,225 @@
+/*Global */
 body {
   font-family: 'Muli', sans-serif;
 
-	background-color: 
-  -webkit-transition-timing-function: ease;
-       -o-transition-timing-function: ease;
-          transition-timing-function: ease;
-  -webkit-transition-duration: .35s;
-       -o-transition-duration: .35s;
-          transition-duration: .35s;
-  -webkit-transition-property: padding-top;
-       -o-transition-property: padding-top;
-          transition-property: padding-top;
-}
-#home > div {
-   padding-top:15%;
-  
 }
 h1{
    color:whitesmoke;
+   /*font-weight:bold;*/
+}
+
+.container{
+  width:80%;
+  margin:auto;
+  overflow:hidden;
+
+}
+
+.dropdown-menu{
+  background-color: #272727;
+}
+.dropdown:hover .dropdown-menu{
+    display: block;
+    margin-top: 0;
 }
 
 .parallax-image{
 	
 	height : 1000px;
-	margin-bottom:50px;
+	margin-bottom:10px;
 	background-attachment: fixed;
 	background-position:center;
 	background-repeat: no-repeat;
 	background-size:cover;
 
 }
+header{
+  /*background:#272727;*/
+  color:#FF652F;
+  padding-top:30px;
+  height:15%;
+  min-height: 70px;
+  /*border-bottom:#FF652F 9px solid;*/
+  padding-left:20px;
+  padding-right:20px;
 
+}
+.dark{
+  padding:15px;
+  background:#FF6527;
+  border-radius: 25px;
+  margin-top:10px;
+  margin-bottom:10px;
+
+  /*min-width:446px;*/
+}z
+
+/*Fade-in Slide-in*/
+
+.fade-in{
+  opacity:0;
+  transition:opacity 655ms ease-in;
+}
+
+.fade-in.appear{
+  opacity:1;
+}
+
+.from-left{
+  grid-column: 2/3;
+  transform:translateX(-50%);
+}
+
+.from-right{
+  grid-column: 3/4;
+  transform:translateX(50%);
+}
+
+.from-left,.from-right{
+  transition: opacity 250ms ease-in,
+        transform 650ms ease-in;
+  opacity:0;
+}
+
+
+.from-left.appear,.from-right.appear{
+  transform:translateX(0);
+  opacity:1;
+}
+
+/*Navbar*/
+
+.navbar{
+
+   background-color: #272727;
+    /*background-color:purple;*/
+
+}
+#navbarSupportedContent a{
+  color:white;
+}
+
+#navbarSupportedContent a:hover{
+  color:#272727;
+  background-color:white;
+}
+
+
+
+
+
+/*ABOUT HOME */
 #home{
-	background-image: url("https://previews.123rf.com/images/somegirl/somegirl1704/somegirl170400107/76010235-assorted-indian-food-on-dark-wooden-background-dishes-of-indian-cuisine-curry-butter-chicken-rice-le.jpg");
+	background-image: url("../images/showcase.jpg");
 
 }
 
+#home > div {
+   padding-top:15%;
+  
+}
+
+/*ABOUT-PROJECT */
 #about-project{
-	background-color: #950740;
+	/*background-color: #747474;*/
+  background-color: #272727;
+  overflow-x:hidden;
   /*#CAFAFE*/
    /*#45A29E*/
 }
 
-#food-categories{
-  background-color: #45A29E;
+#about-project img,#food-categories img{
+  margin-top:20px;
+  max-width: 100%;
+    height: auto;
+    width: 60%; /* ie8 */
+
+}
+#about-project .highlight{
+  text-align: center;
+  color:#FF652F;
+  font-weight:bold;
+}
+/*#about-project > div,#food-categories > div{
+  margin-top:10%;
+}
+*/
+
+
+/*About-project sections */
+
+#about-project #main-col{
+  color:white;
+  float:left;
+  width:50%;
+  font-size:1.25em;
 }
 
-.dropdown:hover .dropdown-menu{
-    display: block;
-    margin-top: 0;
+#about-project #sidebar{
+  white-space: initial;
+  color:white;
+  float:right;
+  width:35%;
+  font-size:1.25em;
+  min-width:360px;
+  /*margin-left:100px;*/
+  /*margin-top:px;*/
+
 }
+#sidebar #users_box li{
+  list-style: none;
+  padding:10px 10px 10px 0px;
+
+  /*border:2px orange solid;*/
+  /*padding:auto;*/
+}
+
+
+section#main{
+  margin-top:60px;
+}
+
+
+/*FOOD */
+#food-categories{
+  background-color: #EFEFEF;
+  overflow-x:hidden;
+}
+
+/*Media queries*/
 @media only screen and (max-device-width: 1366px) {
   .parallax-image {
     background-attachment: scroll;
   }
 }
+
+
+@media(max-width:992px){
+   #about-project .col-md .fade-in, header nav{
+    float:none;
+    text-align:center;
+    width:100%;
+
+  }
+  #about-project{
+    padding-bottom:100px;
+  }
+
+  #about-project.content{
+    margin-top:90px;
+  }
+  .display-1{
+    font-size:4em;
+    } 
+  
+
+
+}
+@media(max-width:360px){
+  
+}
+
+
+/*
+#35424A;*/
 
