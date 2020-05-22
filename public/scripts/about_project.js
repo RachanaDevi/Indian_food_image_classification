@@ -1,7 +1,7 @@
 const faders = document.querySelectorAll(".fade-in"),
       sliders = document.querySelectorAll(".slide-in");
 const appearOptions = {
-  threshold:0,
+  threshold:1,
   rootMargin:"0px 0px -100px 0px"
 
 };
