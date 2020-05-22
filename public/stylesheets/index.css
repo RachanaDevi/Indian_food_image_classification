@@ -5,7 +5,6 @@ body {
 }
 h1{
    color:whitesmoke;
-   /*font-weight:bold;*/
 }
 
 .container{
@@ -34,12 +33,10 @@ h1{
 
 }
 header{
-  /*background:#272727;*/
   color:#FF652F;
   padding-top:30px;
   height:15%;
   min-height: 70px;
-  /*border-bottom:#FF652F 9px solid;*/
   padding-left:20px;
   padding-right:20px;
 
@@ -50,20 +47,15 @@ header{
   border-radius: 25px;
   margin-top:10px;
   margin-bottom:10px;
+}
 
-  /*min-width:446px;*/
-}z
 
 /*Fade-in Slide-in*/
-
-.fade-in{
-  opacity:0;
-  transition:opacity 655ms ease-in;
-}
 
 .fade-in.appear{
   opacity:1;
 }
+
 
 .from-left{
   grid-column: 2/3;
@@ -92,7 +84,6 @@ header{
 .navbar{
 
    background-color: #272727;
-    /*background-color:purple;*/
 
 }
 #navbarSupportedContent a{
@@ -108,7 +99,7 @@ header{
 
 
 
-/*ABOUT HOME */
+/*Home selectors */
 #home{
 	background-image: url("../images/showcase.jpg");
 
@@ -119,59 +110,42 @@ header{
   
 }
 
-/*ABOUT-PROJECT */
+/*About-Project selectors */
 #about-project{
-	/*background-color: #747474;*/
-  background-color: #272727;
+  background:#272727;
   overflow-x:hidden;
-  /*#CAFAFE*/
-   /*#45A29E*/
+  color:white;
 }
 
-#about-project img,#food-categories img{
-  margin-top:20px;
-  max-width: 100%;
-    height: auto;
-    width: 60%; /* ie8 */
 
-}
 #about-project .highlight{
   text-align: center;
   color:#FF652F;
   font-weight:bold;
 }
-/*#about-project > div,#food-categories > div{
-  margin-top:10%;
-}
-*/
 
 
 /*About-project sections */
-
 #about-project #main-col{
-  color:white;
-  float:left;
-  width:50%;
-  font-size:1.25em;
+  font-size:1.75em;
+
 }
 
 #about-project #sidebar{
-  white-space: initial;
-  color:white;
-  float:right;
-  width:35%;
   font-size:1.25em;
-  min-width:360px;
-  /*margin-left:100px;*/
-  /*margin-top:px;*/
+}
 
+#about-project #main-col,#about-project #sidebar{
+  white-space: initial;
+}
+
+#about-project .card{
+  background:#272727;
+  border:none;
 }
 #sidebar #users_box li{
   list-style: none;
   padding:10px 10px 10px 0px;
-
-  /*border:2px orange solid;*/
-  /*padding:auto;*/
 }
 
 
@@ -180,7 +154,7 @@ section#main{
 }
 
 
-/*FOOD */
+/*Food selectors */
 #food-categories{
   background-color: #EFEFEF;
   overflow-x:hidden;
@@ -212,14 +186,9 @@ section#main{
     font-size:4em;
     } 
   
-
-
-}
-@media(max-width:360px){
-  
 }
 
-
-/*
-#35424A;*/
-
+.fade-in{
+  opacity:0;
+  transition:opacity 655ms ease-in;
+}
