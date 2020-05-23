@@ -50,6 +50,10 @@ header{
 }
 
 
+section.main{
+  margin-top:60px;
+}
+
 /*Fade-in Slide-in*/
 
 .fade-in.appear{
@@ -72,7 +76,6 @@ header{
         transform 650ms ease-in;
   opacity:0;
 }
-
 
 .from-left.appear,.from-right.appear{
   transform:translateX(0);
@@ -111,12 +114,17 @@ header{
 }
 
 /*About-Project selectors */
-#about-project{
+#about-project,#motivation{
   background:#272727;
   overflow-x:hidden;
   color:white;
 }
 
+#motivation .highlight{
+  text-align: center;
+  color:#14A76C;
+  font-weight:bold;
+}
 
 #about-project .highlight{
   text-align: center;
@@ -126,32 +134,28 @@ header{
 
 
 /*About-project sections */
-#about-project #main-col{
+#about-project .main-col,#motivation .main-col{
   font-size:1.75em;
 
 }
 
-#about-project #sidebar{
-  font-size:1.25em;
+#about-project .sidebar,#motivation .sidebar{
+  font-size:1.20em;
 }
 
-#about-project #main-col,#about-project #sidebar{
+/*#about-project .main-col,#about-project .sidebar{
   white-space: initial;
-}
+}*/
 
-#about-project .card{
+#about-project .card,#motivation .card{
   background:#272727;
   border:none;
 }
-#sidebar #users_box li{
+.sidebar .users_box li{
   list-style: none;
   padding:10px 10px 10px 0px;
 }
 
-
-section#main{
-  margin-top:60px;
-}
 
 
 /*Food selectors */
@@ -169,21 +173,22 @@ section#main{
 
 
 @media(max-width:992px){
-   #about-project .col-md .fade-in, header nav{
+   #about-project .col-md .fade-in,#motivation .col-md .fade-in, header nav{
     float:none;
     text-align:center;
     width:100%;
 
   }
-  #about-project{
+  #about-project,#motivation{
     padding-bottom:100px;
   }
 
-  #about-project.content{
+ /* #about-project.content{
     margin-top:90px;
-  }
+  }*/
   .display-1{
-    font-size:4em;
+    font-size:3em; 
+    /*it was 4em*/
     } 
   
 }
