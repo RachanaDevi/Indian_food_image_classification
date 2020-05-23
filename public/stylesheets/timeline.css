@@ -35,7 +35,7 @@
 .timeline ol {
   /*font-size: 0;*/
   /*width: 30vw;*/
-  margin-left:12%;
+  margin-left:11%;
   margin-top:8%;
   padding:200px 0;
   /*transition: all 1s;*/
@@ -73,7 +73,7 @@
   height: 12px;
   transform: translateY(-50%);
   border-radius: 50%;
-  background: #F45B69;
+  background: #FFE400;
 }
 
 .timeline ol li div {
@@ -138,7 +138,7 @@
 
 /* GENERAL MEDIA QUERIES 1486px
 –––––––––––––––––––––––––––––––––––––––––––––––––– */
-@media screen and (max-width: 1280px) {
+@media screen and (max-width: 1550px) {
   .timeline ol,
   .timeline ol li {
     width: auto; 
