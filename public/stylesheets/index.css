@@ -160,10 +160,39 @@ section.main{
   font-size:1.75em;
   font-weight:bold;
 }
+
 #about-project p span.highlight{
   color:#FF652F;
 }
+/*Motivation selectors */
 
+#motivation img{
+    margin-bottom:20px;
+    background-color: white;
+    border:4px solid #14A76C;
+    transition-duration: 1000ms;
+    transition-property:background,transform;
+
+}
+
+#motivation img:hover{
+
+    background-color: yellow;
+    transform:rotate(45deg);
+
+}
+
+
+#motivation p.subheading{
+  font-size:1.3em;
+  font-weight:bold;
+}
+
+#motivation p span .highlight{
+  color:#14A76C;
+  /*font-style:bold;*/
+
+}
 /*Food selectors */
 #food-categories{
   background-color: #EFEFEF;
