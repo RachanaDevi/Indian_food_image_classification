@@ -135,7 +135,7 @@ section.main{
 
 /*About-project sections */
 #about-project .main-col,#motivation .main-col{
-  font-size:1.75em;
+  font-size:1.5em;
 
 }
 
@@ -156,7 +156,13 @@ section.main{
   padding:10px 10px 10px 0px;
 }
 
-
+#about-project p.subheading{
+  font-size:1.75em;
+  font-weight:bold;
+}
+#about-project p span.highlight{
+  color:#FF652F;
+}
 
 /*Food selectors */
 #food-categories{
