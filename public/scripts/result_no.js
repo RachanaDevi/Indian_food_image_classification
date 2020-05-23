@@ -1,3 +1,5 @@
+$("#other_option_text").val("");
+
 $(function() {
     $('input[id="other_option"]').on('click', function() {
     	console.log("THIS WAS TRIGGERED");
