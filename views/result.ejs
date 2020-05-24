@@ -1,5 +1,4 @@
 <%- include ("partials/header") %>
-<link rel="stylesheet" type="text/css" href="/stylesheets/result.css">
 <% var results =image_data['prediction'] %>
 <% var probability = results['Probabilities'] %>
 <% var food = image_data['food_desc_order'] %>
@@ -7,8 +6,8 @@
 <% food_category_limit=(food.length<food_category_limit)?food.length:food_category_limit%>
 
 
-
-<div class="row ">
+<div class="result_page">
+<div class="row">
 	<div class="col-lg-6 card border-dark" style="width: 70rem;">
 	  <img src="/image/<%=image_data['image_filename']%>" class="card-img-top rounded float-right" alt="<%=image_data['image_filename']%>">
 	</div> 
@@ -49,5 +48,5 @@
 		  </div>
 		</div>
 </div>
-
+</div>
 <%- include ("partials/footer") %>
