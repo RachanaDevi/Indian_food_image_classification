@@ -23,6 +23,7 @@
     "multer-gridfs-storage": "^4.0.3",
     "nodemon": "^2.0.4",
     "opn": "^6.0.0",
+    "popper.js": "^1.16.0",
     "request": "^2.88.2"
   }
 }
