@@ -100,8 +100,6 @@ section.main{
 
 
 
-
-
 /*Home selectors */
 #home{
 	background-image: url("../images/showcase.jpg");
@@ -113,12 +111,13 @@ section.main{
   
 }
 
-/*About-Project selectors */
-#about-project,#motivation{
+/* Common selectors for about-project,motivation and timeline-chart*/
+#about-project,#motivation,#timeline_chart{
   background:#272727;
   overflow-x:hidden;
   color:white;
 }
+
 
 #motivation .highlight{
   text-align: center;
@@ -129,6 +128,12 @@ section.main{
 #about-project .highlight{
   text-align: center;
   color:#FF652F;
+  font-weight:bold;
+}
+
+#timeline_chart .highlight{
+  text-align: center;
+  color:#FFE400;
   font-weight:bold;
 }
 
@@ -143,14 +148,11 @@ section.main{
   font-size:1.20em;
 }
 
-/*#about-project .main-col,#about-project .sidebar{
-  white-space: initial;
-}*/
-
 #about-project .card,#motivation .card{
   background:#272727;
   border:none;
 }
+
 .sidebar .users_box li{
   list-style: none;
   padding:10px 10px 10px 0px;
@@ -164,6 +166,8 @@ section.main{
 #about-project p span.highlight{
   color:#FF652F;
 }
+
+
 /*Motivation selectors */
 
 #motivation img{
@@ -182,7 +186,6 @@ section.main{
 
 }
 
-
 #motivation p.subheading{
   font-size:1.3em;
   font-weight:bold;
@@ -193,11 +196,132 @@ section.main{
   /*font-style:bold;*/
 
 }
-/*Food selectors */
+
+/* Timeline selectors */
+
+.timeline ol {
+  margin-left:11%;
+  margin-top:8%;
+  padding:200px 0;
+}
+
+
+
+.timeline ol li{
+
+  position: relative;
+  display: inline-block;
+  list-style-type: none;
+  width: 170px;
+  height: 5px;
+  background: #fff;
+}
+
+.timeline ol li:last-child {
+  width: 280px;
+}
+
+.timeline ol li:not(:first-child) {
+  margin-left: 14px;
+}
+
+.timeline ol li:not(:last-child)::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: calc(100% + 1px);
+  bottom: 0;
+  width: 12px;
+  height: 12px;
+  /*transform: translateY(-50%);*/
+  border-radius: 50%;
+  background: #FFE400;
+}
+
+
+
+
+.timeline ol li div {
+  position: absolute;
+  left: calc(100% + 7px);
+  width: 280px;
+  padding: 15px;
+  font-size: 1rem;
+  white-space: normal;
+  color: black;
+  background: white;
+  transition:transform 1000ms;
+}
+
+.timeline ol li div::before {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 0;
+  height: 0;
+  border-style: solid;
+}
+
+.timeline ol li:nth-child(odd) div {
+  border-radius: 20px 20px 20px 0px;
+  top: -16px;
+  transform: translateY(-100%);  
+  /* makes it stay up */
+}
+
+.timeline ol li:nth-child(odd) div::before {
+  top: 100%;
+  border-width: 8px 8px 0 0;
+  border-color: white transparent transparent transparent;
+}
+
+.timeline ol li:nth-child(even) div {
+  border-radius: 0px 20px 20px 20px;
+  top: calc(100% + 16px);
+}
+
+.timeline ol li:nth-child(even) div::before {
+  top: -8px;
+  border-width: 8px 0 0 8px;
+  border-color: transparent transparent transparent white;
+}
+
+.timeline ol li:nth-child(odd) div:hover{
+  transform:scale(1.1) translateY(-100%);
+}
+
+.timeline ol li div:hover{
+  background:#FFE400;
+  color:#FFF;
+  text-shadow:2px 2px #000;
+  transform:scale(1.1);
+}
+
+.timeline time {
+  display: block;
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin-bottom: 8px;
+}
+
+#timeline_chart time{
+  color:#272727;
+  text-shadow:2px 2px #FFE400;
+  font-weight:bold;
+  font-size:1.3em;
+}
+
+
+/*Food page selectors */
 #food-categories{
   background-color: #EFEFEF;
   overflow-x:hidden;
 }
+
+
+
+
 
 /*Media queries*/
 @media only screen and (max-device-width: 1366px) {
@@ -218,12 +342,8 @@ section.main{
     padding-bottom:100px;
   }
 
- /* #about-project.content{
-    margin-top:90px;
-  }*/
   .display-1{
     font-size:3em; 
-    /*it was 4em*/
     } 
   
 }
@@ -231,4 +351,63 @@ section.main{
 .fade-in{
   opacity:0;
   transition:opacity 655ms ease-in;
+}
+
+
+
+@media screen and (max-width: 1550px) {
+  .timeline ol,
+  .timeline ol li {
+    width: auto; 
+  }
+  
+  .timeline ol {
+    padding: 0;
+    transform: none !important;
+  }
+  
+  .timeline ol li {
+    margin:25px;
+    display: block;
+    height: auto;
+    background: transparent;
+  }
+  
+  
+  .timeline ol li:not(:first-child) {
+    margin-left: auto;
+  }
+
+  .timeline ol li  div:hover{
+    transform:scale(1.1) !important;
+
+}
+
+  .timeline ol li div {
+    border-radius: 20px 20px 20px 20px !important;
+    width: 80%;
+    height: auto !important; /*for mobile height */
+    margin: 0 auto 25px;
+
+  }
+  
+  /*WHAT DOES STATIC MEAN */
+  .timeline ol li div {
+    position: static;
+  }
+  
+  .timeline ol li:nth-child(odd) div {
+    transform: none;
+  }
+  
+  .timeline ol li:nth-child(odd) div::before,
+  .timeline ol li:nth-child(even) div::before {
+    left: 50%;
+    top: 100%;
+    transform: translateX(-50%);
+    border: none;
+    border-left: 1px solid white;
+    height: 25px;
+  }
+  
 }
