@@ -1,8 +1,13 @@
 /*Global */
+
+@font-face { font-family: Muli; 
+       src: url('./plugins/fonts/static/Muli-Regular.ttf'); } 
+
 body {
   font-family: 'Muli', sans-serif;
 
 }
+
 h1{
    color:whitesmoke;
 }
@@ -41,6 +46,9 @@ header{
   padding-right:20px;
 
 }
+
+
+
 .dark{
   padding:15px;
   background:#FF6527;
@@ -82,6 +90,7 @@ section.main{
   opacity:1;
 }
 
+
 /*Navbar*/
 
 .navbar{
@@ -112,7 +121,7 @@ section.main{
 }
 
 /* Common selectors for about-project,motivation and timeline-chart*/
-#about-project,#motivation,#timeline_chart{
+#about-project,#motivation,#timeline_chart,#members{
   background:#272727;
   overflow-x:hidden;
   color:white;
@@ -136,6 +145,16 @@ section.main{
   color:#FFE400;
   font-weight:bold;
 }
+#members .highlight{
+  text-align: center;
+  color: #FA8072;
+  /*#9370DB;*/
+  /*#00BFFF;*/
+  /*#00FFFF;*/
+  
+  font-weight:bold;
+}
+
 
 
 
@@ -234,7 +253,6 @@ section.main{
   bottom: 0;
   width: 12px;
   height: 12px;
-  /*transform: translateY(-50%);*/
   border-radius: 50%;
   background: #FFE400;
 }
