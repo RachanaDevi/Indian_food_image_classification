@@ -14,7 +14,17 @@ $(document).ready(function() {
 
 
 $(document).ready(function() {
-    $('a[href*=\\#food-categories]').on('click', function(e){
+    $('a[href*=\\#motivation]').on('click', function(e){
+        // e.preventDefault();
+        $('html, body').animate({
+            scrollTop : $(this.hash).offset().top
+        }, 1500);
+    });
+});
+
+
+$(document).ready(function() {
+    $('a[href*=\\#timeline_chart]').on('click', function(e){
         // e.preventDefault();
         $('html, body').animate({
             scrollTop : $(this.hash).offset().top
