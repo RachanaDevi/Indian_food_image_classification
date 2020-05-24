@@ -1,5 +1,4 @@
 <%- include ("partials/header") %>
-<link rel="stylesheet" type="text/css" href="/stylesheets/index.css">
     <div class="parallax-image" id="home">
             <div class="container">
                 <div class="row">
@@ -25,35 +24,8 @@
 
     <%- include ("timeline") %>
 
+    <%- include ("members") %>
+
     </div>
-
-
-
-    <% if(files) { %>
-    <% files.forEach(function(file){%>
-        <div class="card mb-3">
-            <div class="card-header">
-                <div class="card-title">
-                    <%= file.filename %>
-                </div>
-            </div>
-            <div class="card-body">
-                <% if(file.isImage){%>
-                    <img src="image/<%=file.filename %>" width="250" alt="" class="img-responsive">
-                 <%}else{%>
-                    <p><%file.filename %></p>
-                 <%}%>   
-            </div>
-            <div class="card-footer">
-                <form action="/files/del/<%=file._id %>" method="post">
-                        <button type="submit" class="btn btn-danger">Remove</button>
-                </form>
-            </div>    
-        </div>
-    <% }) %>
-    <%}else{%>
-        <p>No files to show </p>
-    <%}%>    
-     
 
 <%- include ("partials/footer") %>
