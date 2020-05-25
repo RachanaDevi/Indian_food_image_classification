@@ -433,12 +433,12 @@ section.main{
   opacity:1;
 
 }
-.img-box a #insta:hover{
+.img-box a .insta:hover{
   color:#FF54A7;
   border:1px solid #FF54A7;
 }
 
-.img-box a #fb:hover{
+.img-box a .linkedin :hover{
   color:blue;
   border:1px solid blue;
 }
