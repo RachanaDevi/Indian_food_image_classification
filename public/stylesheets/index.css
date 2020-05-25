@@ -148,10 +148,6 @@ section.main{
 #members .highlight{
   text-align: center;
   color: #FA8072;
-  /*#9370DB;*/
-  /*#00BFFF;*/
-  /*#00FFFF;*/
-  
   font-weight:bold;
 }
 
@@ -340,6 +336,7 @@ section.main{
 
 
 /*Result page selectors */
+
 .result_page .card{
   padding:1em;
   margin-left:2em;
@@ -364,89 +361,92 @@ section.main{
   margin-bottom:1em;
 }
 
+
 /*Members page selectors */
 
-.profile{
+#members.profile{
   margin-top:25px;
 
 }
 
-.profile .img-box{
-  opacity:1;
-  display:block;
+#members .profile .img-box{
   position:relative;
 }
 
-.profile h2{
+#members .profile h2{
   font-size:22px;
   font-weight:bold;
   margin-top:15px;
 }
 
-.profile h3{
+#members .profile h3{
   font-size:15px;
   font-weight:bold;
   margin-top:15px;
 }
 
-.img-box img{
+#members .img-box{
+  /*opacity:0;*/
+  background-color:rgba(0,0,0,0.6);
+  transition:transform 400ms;
+}
+#members .img-box img{
   width:276.33px;
   height:276.33px;
   object-fit: cover;
-}
-.img-box:after{
-  content:'';
-  opacity:0;
-  background-color:rgba(0,0,0,0.6);
-  position:absolute;
-  right:0;
-  left:0;
-  top:0;
-  bottom:0;
 
 }
 
-.img-box ul{
+#members .img-box ul{
   margin-bottom:0px;
-  margin-left:12%;
+  margin-left:10%;
   overflow: hide;
-
-  /*padding:20px 0;*/
   position:absolute;
-  z-index:1;
   bottom:0;
   display:block;
   left:70%;
   transform:translate(-50%);
-  opacity:1;
+  /*opacity:1;*/
 }
 
 .img-box ul li{
-  width:30px; /*1.5em */
-  height:30px; /*1.5em */
+  opacity:0;
+  width:100%; 
+  height:auto; 
   border:1px solid #FFF;
   border-radius:50%;
   margin:3px;
-  padding:7px; /*5% */
+  padding:7px; 
   display:inline-block;
-  /*border:2px solid blue;*/
-  /*border:none;*/
+
 }
 .img-box a{
   color:#FFF;
 }
 
-.img-box a li:hover{
+#members .img-box:hover{
+  transform:scale(1.2);
+  opacity:0.5;
+
+}
+#members .img-box:hover li{
+  opacity:1;
+
+}
+.img-box a #insta:hover{
+  color:#FF54A7;
+  border:1px solid #FF54A7;
+}
+
+.img-box a #fb:hover{
   color:blue;
   border:1px solid blue;
 }
-.img-box:hover:after{
-  opacity:1;
-}
-.img box:hover ul{
-  opacity:1;
-}
 
+
+#members .container-fluid{
+  margin-top:8%;
+}
 
 
 /*Media queries*/
@@ -536,4 +536,25 @@ section.main{
     height: 25px;
   }
   
+}
+
+@media screen and (max-width: 1414px) {
+  .img-box ul{
+    left:55% !important;
+  }
+
+}
+@media screen and (max-width: 871px) {
+  .img-box ul{
+    left:40% !important;
+  }
+
+@media screen and (max-width: 764px) {
+  .img-box ul{
+    left:25% !important;
+  } 
+  .img-box ul li{
+    width:50px;
+    height:50px;
+  }
 }
