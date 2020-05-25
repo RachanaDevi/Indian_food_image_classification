@@ -7,7 +7,7 @@
 
                         <form class="form-group" action="/upload" method="post" enctype="multipart/form-data">
                              <div class="custom-file mb-3">
-                                <input type="file" class="custom-file-input form-control" name="file" id="food_image" onchange="selectSingleFile(this.files)">
+                                <input type="file" accept="img/*" class="custom-file-input form-control" name="file" id="food_image" onchange="selectSingleFile(this.files)">
                                 <label class="custom-file-label" for="food_image" id="file-label">Choose file</label>
                             </div>
                             <input type="submit" value="Submit" class="btn btn-primary btn-block form-control">
@@ -25,6 +25,32 @@
     <%- include ("timeline") %>
 
     <%- include ("members") %>
+    <% if(files) { %>
+    <% files.forEach(function(file){%>
+        <div class="card mb-3">
+            <div class="card-header">
+                <div class="card-title">
+                    <%= file.filename %>
+                </div>
+            </div>
+            <div class="card-body">
+                <% if(file.isImage){%>
+                    <img src="image/<%=file.filename %>" width="250" alt="" class="img-responsive">
+                 <%}else{%>
+                    <p><%file.filename %></p>
+                 <%}%>   
+            </div>
+            <div class="card-footer">
+                <form action="/files/del/<%=file._id %>" method="post">
+                        <button type="submit" class="btn btn-danger">Remove</button>
+                </form>
+            </div>    
+        </div>
+    <% }) %>
+    <%}else{%>
+        <p>No files to show </p>
+    <%}%>    
+
 
     </div>
 
