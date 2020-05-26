@@ -294,7 +294,7 @@ app.get("/result/:filename/no",(req,res)=>{
 
 
 app.put("/result/:filename/add-category/:pred_food",function(req,res){
-	Image.findOneAndUpdate({ image_filename:req.params.filename },{$set:{category:req.params.pred_food}}, function (err, foodImage) {
+	Image.findOneAndUpdate({ image_filename:req.params.filename },{$set:{category:req.params.pred_food.toLowerCase()}}, function (err, foodImage) {
 		if(err){
 			console.log(err);
 		}
@@ -321,7 +321,9 @@ app.put("/result/:filename/add-category/:pred_food",function(req,res){
             	else{
             		
             		console.log("successfully added to database");
-            		
+            		// if (!fs.existsSync(Food_Images_Dir+req.params.pred_food.toLowerCase())){
+              //       fs.mkdirSync(Food_Images_Dir+req.params.pred_food.toLowerCase());
+              //   }
             		mkdirp.sync(Food_Images_Dir+req.params.pred_food.toLowerCase());
 
 
@@ -375,8 +377,10 @@ app.put("/result/:filename/add-category/",function(req,res){
             	else{
             
             		console.log("successfully added to database");
-            		
-            		mkdirp(Food_Images_Dir+req.body.food_options);
+            		if (!fs.existsSync(Food_Images_Dir+req.body.food_options)){
+                    fs.mkdirSync(Food_Images_Dir+req.body.food_options);
+                }
+            		// mkdirp(Food_Images_Dir+req.body.food_options);
             
 	            		  gfs.openDownloadStreamByName(req.params.filename).pipe(fs.createWriteStream(Food_Images_Dir+req.body.food_options+"/"+req.params.filename)).
 	            		  on('error',function(error){
