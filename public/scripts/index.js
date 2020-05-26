@@ -31,3 +31,12 @@ $(document).ready(function() {
         }, 1500);
     });
 });
+
+$(document).ready(function() {
+    $('a[href*=\\#members]').on('click', function(e){
+        // e.preventDefault();
+        $('html, body').animate({
+            scrollTop : $(this.hash).offset().top
+        }, 1500);
+    });
+});
