@@ -9,6 +9,7 @@ var imagesSchema = new mongoose.Schema({
     prediction:Object,
     food_desc_order:[String],
     category:String,
+    user_category:String,
 });
 
 
