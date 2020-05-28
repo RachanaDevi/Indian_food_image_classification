@@ -1,70 +1,39 @@
-var bodyParser = require('body-parser'),
-	express = require('express'),
-	imagesSchema = require('./schemas/images'),
-	foodCategoryImgSchema = require('./schemas/food_category_images'),
-	methodOverride = require('method-override'),
-	mkdirp = require('mkdirp'),
-	app = express();
-
-var Food_Images_Dir = './Food_Images/';
-var food_bucket_name= "food";
-const GridFsStorage = require('multer-gridfs-storage'),
-      mongoose = require('mongoose'),
-      crypto = require('crypto'),
-      multer = require('multer'),
-      path = require('path'),
-	  fs = require('fs'),
-      request = require('request');
+const exported_db = require('./database.js');
+var mongoose = exported_db.mongoose,
+      upload = exported_db.upload,
+      conn = exported_db.conn,
+      gfs = exported_db.gfs;
 
 
+const methodOverride = require('method-override'),
+      bodyParser = require('body-parser'),
+	    express = require('express'),
+	    fs = require('fs'),
+	    app = express();
 
-const mongoURI = "mongodb://localhost:27017/food-img-classification";
-const conn = mongoose.createConnection(mongoURI,{
-	useNewUrlParser : true,
-	useUnifiedTopology : true,
-	useFindAndModify: false,
 
+/* Importing database Schemas */
+const  imagesSchema = require('./schemas/images'),
+       foodCategoryImgSchema = require('./schemas/food_category_images');
+
+/*Variables */
+const Food_Images_Dir = './Food_Images/';
+      food_bucket_name= "food";
+
+var Image = conn.model("images",imagesSchema);      
+
+
+conn.on("error", () => {
+    console.log("Some error occurred from the database");
 });
 
-mongoose.Promise = global.Promise;
-
-
-let gfs;
-//initializing GridFS storage
 conn.once("open",()=>{
-	gfs = new mongoose.mongo.GridFSBucket(
-			conn.db,{
-				bucketName: "uploads"
-			});
+  gfs = new mongoose.mongo.GridFSBucket(
+      conn.db,{
+        bucketName: "uploads"
+      });
 });
 
-
-var Image = conn.model("images",imagesSchema);
-
-const storage = new GridFsStorage({
-	url : mongoURI,
-	file: (req, file)=>{
-		return new Promise((resolve, reject)=>{
-			crypto.randomBytes(16,(err,buf)=>{
-				if(err){
-					return reject(err);
-				}
-				const filename = buf.toString("hex") + path.extname(file.originalname);
-				const fileInfo = {
-					filename: filename,
-					bucketName:"uploads"
-				};
-				resolve(fileInfo);
-			});
-		});
-	}
-
-});
-
-// const storage = new GridFsStorage({url : mongoURI});
-const upload = multer({
-	storage
-});
 
 app.use(methodOverride("_method"));
 app.use(bodyParser.json());
@@ -129,39 +98,7 @@ app.get("/",(req,res)=>{
 		process.exit(0);
 
 	}
-
-	gfs.find().toArray((err,files)=>{
-		if(!files || files.length === 0){
-			return res.render("index",{
-				files: false
-			});
-		}
-
-		else{
-			const f = files.map(
-				file =>{
-					if( file.contentType === "image/png" ||
-						file.contentType === "image/jpeg"
-					  ){
-						file.isImage = true;
-					}else{
-						file.isImage = false;
-					}
-					return file;
-				}).sort((a,b)=>{
-					return(
-						new Date(b["uploadDate"]).getTime() - new Date(a["uploadDate"]).getTime()
-
-						);
-
-				});
-				return res.render("index",{
-					files:f
-				});
-		}
-
-	});
-
+  res.render("index");
 });
 
 
@@ -321,10 +258,9 @@ app.put("/result/:filename/add-category/:pred_food",function(req,res){
             	else{
             		
             		console.log("successfully added to database");
-            		// if (!fs.existsSync(Food_Images_Dir+req.params.pred_food.toLowerCase())){
-              //       fs.mkdirSync(Food_Images_Dir+req.params.pred_food.toLowerCase());
-              //   }
-            		mkdirp.sync(Food_Images_Dir+req.params.pred_food.toLowerCase());
+            		if (!fs.existsSync(Food_Images_Dir+req.params.pred_food.toLowerCase())){
+                    fs.mkdirSync(Food_Images_Dir+req.params.pred_food.toLowerCase());
+                }
 
 
 	 
@@ -380,7 +316,7 @@ app.put("/result/:filename/add-category/",function(req,res){
             		if (!fs.existsSync(Food_Images_Dir+req.body.food_options)){
                     fs.mkdirSync(Food_Images_Dir+req.body.food_options);
                 }
-            		// mkdirp(Food_Images_Dir+req.body.food_options);
+            		
             
 	            		  gfs.openDownloadStreamByName(req.params.filename).pipe(fs.createWriteStream(Food_Images_Dir+req.body.food_options+"/"+req.params.filename)).
 	            		  on('error',function(error){
