@@ -13,26 +13,16 @@ const methodOverride = require('method-override'),
 
 
 /* Importing database Schemas */
-const  imagesSchema = require('./schemas/images'),
-       foodCategoryImgSchema = require('./schemas/food_category_images');
+const  imagesSchema = require('./schemas/images');
+const  foodCategoryImgSchema = require('./schemas/food_category_images');
 
 /*Variables */
 const Food_Images_Dir = './Food_Images/';
       food_bucket_name= "food";
 
-var Image = conn.model("images",imagesSchema);      
+var indexRoutes = require('./routes/index.js');
 
 
-conn.on("error", () => {
-    console.log("Some error occurred from the database");
-});
-
-conn.once("open",()=>{
-  gfs = new mongoose.mongo.GridFSBucket(
-      conn.db,{
-        bucketName: "uploads"
-      });
-});
 
 
 app.use(methodOverride("_method"));
@@ -41,137 +31,142 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static(__dirname+"/public"));
 app.use(express.json());
 app.set("view engine","ejs");
+app.use("/",indexRoutes);
+
+// app.use("/campgrounds/:id/comments",commentRoutes);
+// app.use("/campgrounds",campgroundRoutes);
+// app.use("/",indexRoutes);
+
+// function changeDictValuesToFixed15(original_dict){
+// 	for(var key in original_dict){
+// 		original_dict[key]=original_dict[key].toFixed(15);
+// 	}
+// 	return original_dict;
+// }
+// function swapKeyandValueOfDict(original_dict){ 
+//         var swapped_dict = {}; 
+//         for(var key in original_dict){ 
+//                swapped_dict[original_dict[key]] = key; 
+//         }
+//         return swapped_dict;
+// }
+
+// function arrayInDescendingOrder(arr) {
+//   return arr.sort().reverse();
+// }
+
+// function toFixed15(arr){
+//    for(index =0; index<arr.length;index++){
+//   	  arr[index]=(parseFloat(arr[index]).toFixed(15)).toString();
+//     }
+//     return arr;
+
+// }
+
+// function getKeysOfDict(dict){
+//     return Object.keys(dict);
+// }
+
+// function getValuesInSameOrderOfTheKeyArr(key_arr,key_value_dict){
+//     value_arr=[];
+//     for (index = 0; index < key_arr.length; index++) { 
+//               value_arr.push(key_value_dict[key_arr[index]]);
+//     } 
+//     return(value_arr);
+// }
 
 
-function changeDictValuesToFixed15(original_dict){
-	for(var key in original_dict){
-		original_dict[key]=original_dict[key].toFixed(15);
-	}
-	return original_dict;
-}
-function swapKeyandValueOfDict(original_dict){ 
-        var swapped_dict = {}; 
-        for(var key in original_dict){ 
-               swapped_dict[original_dict[key]] = key; 
-        }
-        return swapped_dict;
-}
-
-function arrayInDescendingOrder(arr) {
-  return arr.sort().reverse();
-}
-
-function toFixed15(arr){
-   for(index =0; index<arr.length;index++){
-  	  arr[index]=(parseFloat(arr[index]).toFixed(15)).toString();
-    }
-    return arr;
-
-}
-
-function getKeysOfDict(dict){
-    return Object.keys(dict);
-}
-
-function getValuesInSameOrderOfTheKeyArr(key_arr,key_value_dict){
-    value_arr=[];
-    for (index = 0; index < key_arr.length; index++) { 
-              value_arr.push(key_value_dict[key_arr[index]]);
-    } 
-    return(value_arr);
-}
+// function getFoodNamesInDescOrder(food_prob_dict){
+//   food_prob_dict = changeDictValuesToFixed15(food_prob_dict);
+//   prob_food_dict = swapKeyandValueOfDict(food_prob_dict);
+//   prob_arr = getKeysOfDict(prob_food_dict);
+//   prob_arr = arrayInDescendingOrder(prob_arr);
+//   food_arr = getValuesInSameOrderOfTheKeyArr(prob_arr,prob_food_dict);
+//   return food_arr;
+// }
 
 
-function getFoodNamesInDescOrder(food_prob_dict){
-  food_prob_dict = changeDictValuesToFixed15(food_prob_dict);
-  prob_food_dict = swapKeyandValueOfDict(food_prob_dict);
-  prob_arr = getKeysOfDict(prob_food_dict);
-  prob_arr = arrayInDescendingOrder(prob_arr);
-  food_arr = getValuesInSameOrderOfTheKeyArr(prob_arr,prob_food_dict);
-  return food_arr;
-}
+// app.get("/",(req,res)=>{
+// 	if(!gfs){
+// 		console.log("Some error occurred, check connection to db");
+// 		res.send("Some error occured, check connection to db");
+// 		process.exit(0);
 
-app.get("/",(req,res)=>{
-	if(!gfs){
-		console.log("Some error occurred, check connection to db");
-		res.send("Some error occured, check connection to db");
-		process.exit(0);
-
-	}
-  res.render("index");
-});
+// 	}
+//   res.render("index");
+// });
 
 
-app.post("/upload",upload.single("file"),(req,res)=>{
-  FormData = require('form-data');
-  form = new FormData();
-  file=req.file.filename;
-  results_json=null;
-  food_arr = null;
+// app.post("/upload",upload.single("file"),(req,res)=>{
+//   FormData = require('form-data');
+//   form = new FormData();
+//   file=req.file.filename;
+//   results_json=null;
+//   food_arr = null;
 
-  gfs.openDownloadStreamByName(file).pipe(fs.createWriteStream('./output.png')).on('error',function(error){
-                console.log(error);
+//   gfs.openDownloadStreamByName(file).pipe(fs.createWriteStream('./output.png')).on('error',function(error){
+//                 console.log(error);
 
-            }).
-            on('finish',function(){
-                form.append( 'file', fs.createReadStream('output.png'),{filename: file, contentType: 'image'});
-  				form.submit('http://ec2-34-226-213-76.compute-1.amazonaws.com/home', function(err,api_res)
-  				{
-	    			if(err){
-	        			res.send(err);
-	    			}
+//             }).
+//             on('finish',function(){
+//                 form.append( 'file', fs.createReadStream('output.png'),{filename: file, contentType: 'image'});
+//   				form.submit('http://ec2-34-226-213-76.compute-1.amazonaws.com/home', function(err,api_res)
+//   				{
+// 	    			if(err){
+// 	        			res.send(err);
+// 	    			}
   			  
-    			var results = '';
-    			api_res.setEncoding('utf8')
-    			api_res.on('data',function(d){
+//     			var results = '';
+//     			api_res.setEncoding('utf8')
+//     			api_res.on('data',function(d){
 
-        			results+=d
+//         			results+=d
 
-    			}); //end of api_res_on
+//     			}); //end of api_res_on
 
-    			api_res.on('end',function(d)
-    			{
-        			results_json = JSON.parse(results);
-        			food_arr = getFoodNamesInDescOrder(results_json['Probabilities']);
-                    var newImage =
-                    {
-      	  					image_id:new mongoose.Types.ObjectId(req.file.id),
-      	  					image_filename:req.file.filename,
-      	  					contentType:req.file.contentType,
-      	  					uploadDate:new Date(req.file.uploadDate),
-      	      			prediction:results_json,
-      	  	     			food_desc_order:food_arr
-  		     	    };
+//     			api_res.on('end',function(d)
+//     			{
+//         			results_json = JSON.parse(results);
+//         			food_arr = getFoodNamesInDescOrder(results_json['Probabilities']);
+//                     var newImage =
+//                     {
+//       	  					image_id:new mongoose.Types.ObjectId(req.file.id),
+//       	  					image_filename:req.file.filename,
+//       	  					contentType:req.file.contentType,
+//       	  					uploadDate:new Date(req.file.uploadDate),
+//       	      			prediction:results_json,
+//       	  	     			food_desc_order:food_arr
+//   		     	    };
   			    	
   			    
-  			    Image.create(newImage,function(err,image){
-  			    	if(err){
-  			    		console.log(err);
-  			    	}
-  			    	else{
-  			    		console.log("Saved to db");
-  			    		res.redirect("/result/"+file);
-  			    	}
-  			    });
+//   			    Image.create(newImage,function(err,image){
+//   			    	if(err){
+//   			    		console.log(err);
+//   			    	}
+//   			    	else{
+//   			    		console.log("Saved to db");
+//   			    		res.redirect("/result/"+file);
+//   			    	}
+//   			    });
   		
         
-    		})  //end of res on end
-    	}); //form submit
+//     		})  //end of res on end
+//     	}); //form submit
 
   		
-  			// res.redirect("/result/"+file);	
+//   			// res.redirect("/result/"+file);	
 
 
 
  
- }); //end of on finish function
+//  }); //end of on finish function
 
 
         
       
 
 
-});
+// });
 
 
 app.get("/result/:filename",(req, res)=>{
