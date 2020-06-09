@@ -50,43 +50,11 @@ const upload = multer({
 });
 
 
-// conn.on("error", () => {
-//     console.log("Some error occurred from the database");
-// });
-
-// conn.once("open",()=>{
-//   gfs = new mongoose.mongo.GridFSBucket(
-//       conn.db,{
-//         bucketName: "uploads"
-//       });
-// });
-
-
-//exporting the following modules
-
-// const methodOverride = require('method-override'),
-//       bodyParser = require('body-parser'),
-// 	    express = require('express'),
-// 	    fs = require('fs'),
-// 	    app = express();
-
-	    
-// conn.on("error", () => {
-//     console.log("Some error occurred from the database");
-// });
-
-// conn.once("open",()=>{
-//   gfs = new mongoose.mongo.GridFSBucket(
-//       conn.db,{
-//         bucketName: "uploads"
-//       });
-// })
 const  imagesSchema = require('./schemas/images');
 var Image = conn.model("images",imagesSchema);
 console.log(Image);
 
 exports.mongoose = mongoose;
-// exports.gfs = gfs;
 exports.conn =conn;
 exports.upload = upload;
 exports.Image = Image;
