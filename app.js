@@ -2,7 +2,8 @@ const exported_db = require('./database.js');
 var mongoose = exported_db.mongoose,
       upload = exported_db.upload,
       conn = exported_db.conn,
-      gfs = exported_db.gfs;
+      // gfs = exported_db.gfs,
+      Image = exported_db.Image;
 
 
 const methodOverride = require('method-override'),
@@ -22,8 +23,18 @@ const Food_Images_Dir = './Food_Images/';
 
 var indexRoutes = require('./routes/index.js');
 
+// var Image = conn.model("images",imagesSchema);
+// console.log(typeof Image);
+conn.on("error", () => {
+    console.log("Some error occurred from the database");
+});
 
-
+conn.once("open",()=>{
+  gfs = new mongoose.mongo.GridFSBucket(
+      conn.db,{
+        bucketName: "uploads"
+      });
+});
 
 app.use(methodOverride("_method"));
 app.use(bodyParser.json());
