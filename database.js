@@ -5,7 +5,7 @@ var GridFsStorage = require('multer-gridfs-storage'),
     multer = require('multer'),
 	path = require('path');
 
-let gfs;
+// let gfs;
 
 
 const mongoURI = "mongodb://localhost:27017/food-img-classification";
@@ -81,8 +81,12 @@ const upload = multer({
 //         bucketName: "uploads"
 //       });
 // })
+const  imagesSchema = require('./schemas/images');
+var Image = conn.model("images",imagesSchema);
+console.log(Image);
 
 exports.mongoose = mongoose;
-exports.gfs = gfs;
+// exports.gfs = gfs;
 exports.conn =conn;
 exports.upload = upload;
+exports.Image = Image;
