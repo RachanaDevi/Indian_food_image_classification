@@ -16,6 +16,7 @@ const methodOverride = require('method-override'),
 
 var indexRoutes = require('./routes/index');
 var resultRoutes = require('./routes/result');
+var imageRoutes = require('./routes/image');
 
 
 conn.on("error", () => {
@@ -37,23 +38,8 @@ app.use(express.json());
 app.set("view engine","ejs");
 app.use("/",indexRoutes);
 app.use("/result/:filename",resultRoutes);
+app.use("image/:filename",imageRoutes);
 
-
-
-app.get("/image/:filename", (req, res) => {
-  const file = gfs
-    .find({
-      filename: req.params.filename
-    })
-    .toArray((err, files) => {
-      if (!files || files.length === 0) {
-        return res.status(404).json({
-          err: "no files exist"
-        });
-      }
-      gfs.openDownloadStreamByName(req.params.filename).pipe(res);
-    });
-});
 
 
 app.listen(process.env.PORT||3000,process.env.IP,function(){
