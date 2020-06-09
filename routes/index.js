@@ -1,75 +1,33 @@
+var  imagesSchema = require('../schemas/images');
 var express = require('express');
 var router = express.Router();
-var  imagesSchema = require('../schemas/images');
+var fs  = require('fs');
+
 const exported_db = require('../database.js');
+const {getFoodNamesInDescOrder} = require('./functions/index.js');
 var mongoose = exported_db.mongoose,
       upload = exported_db.upload,
       conn = exported_db.conn,
-      gfs = exported_db.gfs;
+      Image = exported_db.Image;
+      
 
-var Image = conn.model("images",imagesSchema);  
+// var Image = conn.model("images",imagesSchema);
+console.log("HEREEE")  
+// console.log(Image);
+
  /*************ROOT ROUTE ***************/
 
-conn.on("error", () => {
-    console.log("Some error occurred from the database");
-});
+// conn.on("error", () => {
+//     console.log("Some error occurred from the database");
+// });
 
-conn.once("open",()=>{
-  gfs = new mongoose.mongo.GridFSBucket(
-      conn.db,{
-        bucketName: "uploads"
-      });
-});
+// conn.once("open",()=>{
+//   gfs = new mongoose.mongo.GridFSBucket(
+//       conn.db,{
+//         bucketName: "uploads"
+//       });
+// });
 
-
-
-function changeDictValuesToFixed15(original_dict){
-  for(var key in original_dict){
-    original_dict[key]=original_dict[key].toFixed(15);
-  }
-  return original_dict;
-}
-function swapKeyandValueOfDict(original_dict){ 
-        var swapped_dict = {}; 
-        for(var key in original_dict){ 
-               swapped_dict[original_dict[key]] = key; 
-        }
-        return swapped_dict;
-}
-
-function arrayInDescendingOrder(arr) {
-  return arr.sort().reverse();
-}
-
-function toFixed15(arr){
-   for(index =0; index<arr.length;index++){
-      arr[index]=(parseFloat(arr[index]).toFixed(15)).toString();
-    }
-    return arr;
-
-}
-
-function getKeysOfDict(dict){
-    return Object.keys(dict);
-}
-
-function getValuesInSameOrderOfTheKeyArr(key_arr,key_value_dict){
-    value_arr=[];
-    for (index = 0; index < key_arr.length; index++) { 
-              value_arr.push(key_value_dict[key_arr[index]]);
-    } 
-    return(value_arr);
-}
-
-
-function getFoodNamesInDescOrder(food_prob_dict){
-  food_prob_dict = changeDictValuesToFixed15(food_prob_dict);
-  prob_food_dict = swapKeyandValueOfDict(food_prob_dict);
-  prob_arr = getKeysOfDict(prob_food_dict);
-  prob_arr = arrayInDescendingOrder(prob_arr);
-  food_arr = getValuesInSameOrderOfTheKeyArr(prob_arr,prob_food_dict);
-  return food_arr;
-}
 
 router.get("/",(req,res)=>{
   if(!gfs){
@@ -153,6 +111,20 @@ router.post("/upload",upload.single("file"),(req,res)=>{
 
 });
 
+// router.get("/image/:filename", (req, res) => {
+//   const file = gfs
+//     .find({
+//       filename: req.params.filename
+//     })
+//     .toArray((err, files) => {
+//       if (!files || files.length === 0) {
+//         return res.status(404).json({
+//           err: "no files exist"
+//         });
+//       }
+//       gfs.openDownloadStreamByName(req.params.filename).pipe(res);
+//     });
+// });
 
  
 
