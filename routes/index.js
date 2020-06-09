@@ -11,24 +11,6 @@ var mongoose = exported_db.mongoose,
       Image = exported_db.Image;
       
 
-// var Image = conn.model("images",imagesSchema);
-console.log("HEREEE")  
-// console.log(Image);
-
- /*************ROOT ROUTE ***************/
-
-// conn.on("error", () => {
-//     console.log("Some error occurred from the database");
-// });
-
-// conn.once("open",()=>{
-//   gfs = new mongoose.mongo.GridFSBucket(
-//       conn.db,{
-//         bucketName: "uploads"
-//       });
-// });
-
-
 router.get("/",(req,res)=>{
   if(!gfs){
     console.log("Some error occurred, check connection to db");
