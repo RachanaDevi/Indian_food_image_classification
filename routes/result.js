@@ -1,26 +1,21 @@
+var  imagesSchema = require('../schemas/images');
+const  foodCategoryImgSchema = require('../schemas/food_category_images');
 var express = require('express');
 var router = express.Router({mergeParams:true});
 var fs  = require('fs');
 
-const {getCollNameInsideBucket} = require('./functions/result.js');
-
-
-const  foodCategoryImgSchema = require('../schemas/food_category_images');
-var  imagesSchema = require('../schemas/images');
-
 const exported_db = require('../database.js');
+const {getCollNameInsideBucket} = require('./functions/result.js');
 var mongoose = exported_db.mongoose,
       conn = exported_db.conn,
       Image = exported_db.Image;
       
-
 const Food_Images_Dir = './Food_Images/';
       food_bucket_name= "food";
 
 
 router.get("/",(req, res)=>{
-	Image.findOne({ image_filename:req.params.filename }, (err, foundImage)=> {
-        
+	Image.findOne({ image_filename:req.params.filename }, function (err, foundImage) {
 		if(err){
 			console.log(err);
 		}
@@ -33,6 +28,7 @@ router.get("/",(req, res)=>{
 	
 	
 }); 
+
 
 
 router.get("/no",(req,res)=>{
