@@ -22,7 +22,7 @@ router.get("/",(req,res)=>{
 });
 
 
-router.post("/upload",upload.single("file"),(req,res)=>{
+router.post("/",upload.single("file"),(req,res)=>{
   FormData = require('form-data');
   form = new FormData();
   file=req.file.filename;
