@@ -38,7 +38,7 @@ app.use(express.json());
 app.set("view engine","ejs");
 app.use("/",indexRoutes);
 app.use("/result/:filename",resultRoutes);
-app.use("image/:filename",imageRoutes);
+app.use("/image/:filename",imageRoutes);
 
 
 
